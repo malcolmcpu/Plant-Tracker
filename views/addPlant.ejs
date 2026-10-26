@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add a Plant</title>
+  </head>
+  <body>
+    <div class="card">
+      <h1>🌿 Add a Plant</h1>
+      <form action="/plants" method="POST">
+        <label for="name">Plant name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="e.g. Monstera"
+          required
+        />
+
+        <label for="light">Light needs</label>
+        <select id="light" name="light">
+          <option value="low">Low</option>
+          <option value="medium" selected>Medium</option>
+          <option value="bright">Bright</option>
+        </select>
+
+        <button type="submit">Add Plant</button>
+      </form>
+      <a href="/profile" class="back">← Back to my plants</a>
+    </div>
+  </body>
+</html>

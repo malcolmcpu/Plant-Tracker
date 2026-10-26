@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+    <title>My Plants</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+
+  <header class="topbar">
+    <h1>🌱 My Plants</h1>
+    <nav>
+      <a href="/plants/new" class="button">+ Add a Plant</a>
+      <a href="/logout">Log Out</a>
+    </nav>
+  </header>
+
+    <main>
+    <% if (plants.length === 0) { %>
+      <p class="empty">No plants yet. <a href="/plants/new">Add your first one!</a></p>
+    <% } else { %>
+      <ul class="plant-list">
+        <% plants.forEach(plant => { %>
+          <% const days = Math.floor((Date.now() - new Date(plant.lastWatered)) / 86400000) %>
+          <li class="plant" data-id="<%= plant._id %>">
+            <div class="plant-info">
+              <h2><%= plant.name %></h2>
+              <p class="light"><%= plant.light %> light</p>
+              <p class="watered">
+                Last watered: <%= new Date(plant.lastWatered).toLocaleDateString() %>
+                (<%= days === 0 ? 'today' : days + (days === 1 ? ' day ago' : ' days ago') %>)
+              </p>
+              <% if (days >= 7) { %>
+                <p class="needs-water">💧 Needs water!</p>
+              <% } %>
+            </div>
+            <div class="plant-actions">
+              <button class="water">Watered today</button>
+              <button class="delete">🗑 Delete</button>
+            </div>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </main>
+
+</div>
+
+<script src="main.js"></script>
+
+</body>
+</html>
