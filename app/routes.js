@@ -1,7 +1,7 @@
 module.exports = function (app, passport, db, ObjectId) {
   // normal routes ===============================================================
 
-  // show the home page (will also have our login links)
+  // SERVING UP THE LANDING PAGE
   app.get('/', function (req, res) {
     res.render('index.ejs');
   });
@@ -110,7 +110,7 @@ module.exports = function (app, passport, db, ObjectId) {
 
   // locally --------------------------------
   // LOGIN ===============================
-  // show the login form
+  // SERVING UP THE LOGIN PAGE
   app.get('/login', function (req, res) {
     res.render('login.ejs', { message: req.flash('loginMessage') });
   });
@@ -128,7 +128,7 @@ module.exports = function (app, passport, db, ObjectId) {
   );
 
   // SIGNUP =================================
-  // show the signup form
+  // SERVING UP THE PROFILE SIGN UP PAGE
   app.get('/signup', function (req, res) {
     res.render('signup.ejs', { message: req.flash('signupMessage') });
   });
