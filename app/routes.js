@@ -1,3 +1,6 @@
+//SETTING UP ACCESS TO THE 'PLANTS' COLLECTION WITHIN OUR DATABASE
+const Plants = require('./models/plants');
+
 module.exports = function (app, passport, db, ObjectId) {
   // normal routes ===============================================================
 
@@ -13,16 +16,23 @@ module.exports = function (app, passport, db, ObjectId) {
 
   // PROFILE SECTION =========================
   app.get('/profile', isLoggedIn, function (req, res) {
-    db.collection('plants')
-      .find()
-      .toArray((err, result) => {
-        if (err) return console.log(err);
-        res.render('profile.ejs', {
-          user: req.user,
-          //what's held in the 'messages' key, has to be referred to in profile.ejs
-          messages: result,
-        });
-      });
+    // db.collection('plants')
+    //   .find()
+    //   .toArray((err, result) => {
+    //     if (err) return console.log(err);
+    //     res.render('profile.ejs', {
+    //       user: req.user,
+    //       //what's held in the 'messages' key, has to be referred to in profile.ejs
+    //       messages: result,
+    //     });
+    //   });
+    //RETRIEVING OUR LIST OF PLANTS ASSOCIATED WITH OUR USER
+    Plants.find({ userId: req.user._id }, (err, plants) => {
+      if (err) {
+        return console.log(err);
+      }
+      res.render('profile.ejs', { user: req.user, plants });
+    });
   });
 
   // LOGOUT ==============================
