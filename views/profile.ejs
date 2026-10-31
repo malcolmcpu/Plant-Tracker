@@ -27,7 +27,7 @@
           <li class="plant" data-id="<%= plant._id %>">
             <div class="plant-info">
               <h2><%= plant.name %></h2>
-              <p class="light"><%= plant.light %> light</p>
+              <p class="light">Needs <%= plant.light[0].toUpperCase() + plant.light.slice(1) %> Light</p>
               <p class="watered">
                 Last watered: <%= new Date(plant.lastWatered).toLocaleDateString() %>
                 (<%= days === 0 ? 'today' : days + (days === 1 ? ' day ago' : ' days ago') %>)
