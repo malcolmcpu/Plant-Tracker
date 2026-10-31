@@ -35,6 +35,22 @@ module.exports = function (app, passport, db, ObjectId) {
     });
   });
 
+  //CREATING A NEW PLANT DATABASE RECORD
+  app.post('/plants', isLoggedIn, async (req, res) => {
+    try {
+      await Plants.create({
+        userId: req.user._id,
+        name: req.body.name,
+        light: req.body.light,
+      });
+      console.log('New plant added to the database!');
+      res.redirect('/profile');
+    } catch (err) {
+      console.error(err);
+      res.redirect('/profile');
+    }
+  });
+
   // LOGOUT ==============================
   app.get('/logout', (req, res) => {
     req.logout(() => {
