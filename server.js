@@ -33,7 +33,7 @@ app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static('public')); // allows us to access all items in public folder at root for reference
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 
