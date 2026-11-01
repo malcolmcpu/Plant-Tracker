@@ -1,7 +1,11 @@
-body{
-  padding-top:80px;
-  word-wrap:break-word;
+body {
+  padding-top: 80px;
+  word-wrap: break-word;
 }
-img{
+img {
   height: 200px;
+}
+
+.background {
+  background: rgba(93, 215, 181, 0.584);
 }
