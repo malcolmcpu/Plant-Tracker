@@ -9,3 +9,10 @@ img {
 .background {
   background: rgba(93, 215, 181, 0.584);
 }
+.plant-list {
+  text-align: center;
+  list-style: none;
+}
+.plant {
+  padding-bottom: 30px;
+}
