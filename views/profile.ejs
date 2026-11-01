@@ -4,9 +4,9 @@
     <title>My Plants</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
-<body>
+<body class="background">
 <div class="container">
 
   <header class="topbar">
@@ -27,7 +27,7 @@
           <li class="plant" data-id="<%= plant._id %>">
             <div class="plant-info">
               <h2><%= plant.name %></h2>
-              <p class="light"><%= plant.light %> light</p>
+              <p class="light">Needs <%= plant.light[0].toUpperCase() + plant.light.slice(1) %> Light</p>
               <p class="watered">
                 Last watered: <%= new Date(plant.lastWatered).toLocaleDateString() %>
                 (<%= days === 0 ? 'today' : days + (days === 1 ? ' day ago' : ' days ago') %>)

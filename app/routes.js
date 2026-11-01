@@ -1,7 +1,10 @@
+//SETTING UP ACCESS TO THE 'PLANTS' COLLECTION WITHIN OUR DATABASE
+const Plants = require('./models/plants');
+
 module.exports = function (app, passport, db, ObjectId) {
   // normal routes ===============================================================
 
-  // show the home page (will also have our login links)
+  // SERVING UP THE LANDING PAGE
   app.get('/', function (req, res) {
     res.render('index.ejs');
   });
@@ -13,16 +16,39 @@ module.exports = function (app, passport, db, ObjectId) {
 
   // PROFILE SECTION =========================
   app.get('/profile', isLoggedIn, function (req, res) {
-    db.collection('plants')
-      .find()
-      .toArray((err, result) => {
-        if (err) return console.log(err);
-        res.render('profile.ejs', {
-          user: req.user,
-          //what's held in the 'messages' key, has to be referred to in profile.ejs
-          messages: result,
-        });
+    // db.collection('plants')
+    //   .find()
+    //   .toArray((err, result) => {
+    //     if (err) return console.log(err);
+    //     res.render('profile.ejs', {
+    //       user: req.user,
+    //       //what's held in the 'messages' key, has to be referred to in profile.ejs
+    //       messages: result,
+    //     });
+    //   });
+    //RETRIEVING OUR LIST OF PLANTS ASSOCIATED WITH OUR USER
+    Plants.find({ userId: req.user._id }, (err, plants) => {
+      if (err) {
+        return console.log(err);
+      }
+      res.render('profile.ejs', { user: req.user, plants });
+    });
+  });
+
+  //CREATING A NEW PLANT DATABASE RECORD
+  app.post('/plants', isLoggedIn, async (req, res) => {
+    try {
+      await Plants.create({
+        userId: req.user._id,
+        name: req.body.name,
+        light: req.body.light,
       });
+      console.log('New plant added to the database!');
+      res.redirect('/profile');
+    } catch (err) {
+      console.error(err);
+      res.redirect('/profile');
+    }
   });
 
   // LOGOUT ==============================
@@ -110,7 +136,7 @@ module.exports = function (app, passport, db, ObjectId) {
 
   // locally --------------------------------
   // LOGIN ===============================
-  // show the login form
+  // SERVING UP THE LOGIN PAGE
   app.get('/login', function (req, res) {
     res.render('login.ejs', { message: req.flash('loginMessage') });
   });
@@ -128,7 +154,7 @@ module.exports = function (app, passport, db, ObjectId) {
   );
 
   // SIGNUP =================================
-  // show the signup form
+  // SERVING UP THE PROFILE SIGN UP PAGE
   app.get('/signup', function (req, res) {
     res.render('signup.ejs', { message: req.flash('signupMessage') });
   });
