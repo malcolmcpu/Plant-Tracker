@@ -51,6 +51,21 @@ module.exports = function (app, passport, db, ObjectId) {
     }
   });
 
+  // DELETING A PLANT RECORD
+  app.delete('/delete/:id', async (req, res) => {
+    try {
+      const deleteThisPlant = await Plants.findByIdAndDelete(req.params.id);
+      if (!deleteThisPlant) {
+        return res.status(404).json({ message: 'Plant not found' });
+      }
+      res.json({ message: 'Plant deleted' });
+      // res.redirect('/profile'); was NOT necessary
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
+
   // LOGOUT ==============================
   app.get('/logout', (req, res) => {
     req.logout(() => {
@@ -59,76 +74,76 @@ module.exports = function (app, passport, db, ObjectId) {
     res.redirect('/');
   });
 
-  // message board routes ===============================================================
+  // // Previous message board routes ===============================================================
 
-  app.post('/messages', (req, res) => {
-    db.collection('messages').save(
-      { name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown: 0 },
-      (err, result) => {
-        if (err) return console.log(err);
-        console.log('saved to database');
-        res.redirect('/profile');
-      },
-    );
-  });
+  // app.post('/messages', (req, res) => {
+  //   db.collection('messages').save(
+  //     { name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown: 0 },
+  //     (err, result) => {
+  //       if (err) return console.log(err);
+  //       console.log('saved to database');
+  //       res.redirect('/profile');
+  //     },
+  //   );
+  // });
 
-  app.put('/likeMsg', (req, res) => {
-    db.collection('messages').findOneAndUpdate(
-      {
-        // name: req.body.name, msg: req.body.msg
-        _id: new ObjectId(req.body.id),
-      },
-      {
-        $inc: {
-          thumbUp: 1,
-        },
-      },
-      {
-        sort: { _id: -1 },
-        upsert: true,
-      },
-      (err, result) => {
-        if (err) return res.send(err);
-        res.send(result);
-      },
-    );
-  });
+  // app.put('/likeMsg', (req, res) => {
+  //   db.collection('messages').findOneAndUpdate(
+  //     {
+  //       // name: req.body.name, msg: req.body.msg
+  //       _id: new ObjectId(req.body.id),
+  //     },
+  //     {
+  //       $inc: {
+  //         thumbUp: 1,
+  //       },
+  //     },
+  //     {
+  //       sort: { _id: -1 },
+  //       upsert: true,
+  //     },
+  //     (err, result) => {
+  //       if (err) return res.send(err);
+  //       res.send(result);
+  //     },
+  //   );
+  // });
 
-  app.put('/dislikeMsg', (req, res) => {
-    db.collection('messages').findOneAndUpdate(
-      {
-        // name: req.body.name, msg: req.body.msg
-        _id: new ObjectId(req.body.id),
-      },
-      {
-        $inc: {
-          thumbUp: -1,
-        },
-      },
-      {
-        sort: { _id: -1 },
-        upsert: true,
-      },
-      (err, result) => {
-        if (err) return res.send(err);
-        res.send(result);
-      },
-    );
-  });
+  // app.put('/dislikeMsg', (req, res) => {
+  //   db.collection('messages').findOneAndUpdate(
+  //     {
+  //       // name: req.body.name, msg: req.body.msg
+  //       _id: new ObjectId(req.body.id),
+  //     },
+  //     {
+  //       $inc: {
+  //         thumbUp: -1,
+  //       },
+  //     },
+  //     {
+  //       sort: { _id: -1 },
+  //       upsert: true,
+  //     },
+  //     (err, result) => {
+  //       if (err) return res.send(err);
+  //       res.send(result);
+  //     },
+  //   );
+  // });
 
-  app.delete('/deleteMsg', (req, res) => {
-    db.collection('messages').findOneAndDelete(
-      {
-        // name: req.body.name,
-        // msg: req.body.msg,
-        _id: new ObjectId(req.body.id),
-      },
-      (err, result) => {
-        if (err) return res.send(500, err);
-        res.send('Message deleted!');
-      },
-    );
-  });
+  // app.delete('/deleteMsg', (req, res) => {
+  //   db.collection('messages').findOneAndDelete(
+  //     {
+  //       // name: req.body.name,
+  //       // msg: req.body.msg,
+  //       _id: new ObjectId(req.body.id),
+  //     },
+  //     (err, result) => {
+  //       if (err) return res.send(500, err);
+  //       res.send('Message deleted!');
+  //     },
+  //   );
+  // });
 
   // =============================================================================
   // AUTHENTICATE (FIRST LOGIN) ==================================================
