@@ -37,11 +37,14 @@ module.exports = function (app, passport, db, ObjectId) {
 
   //CREATING A NEW PLANT DATABASE RECORD
   app.post('/plants', isLoggedIn, async (req, res) => {
+    const todaysDate = new Date().toLocaleDateString('en-US');
+
     try {
       await Plants.create({
         userId: req.user._id,
         name: req.body.name,
         light: req.body.light,
+        lastWatered: req.body.lastWatered || todaysDate,
       });
       console.log('New plant added to the database!');
       res.redirect('/profile');
