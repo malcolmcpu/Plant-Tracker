@@ -51,7 +51,7 @@ module.exports = function (app, passport, db, ObjectId) {
     }
   });
 
-  //GRABING SELECTED PLANT FOR EDIT AND UPDATING TO PROFILE
+  //GRABING SELECTED PLANT FOR EDIT
   app.get('/edit/:id', async (req, res) => {
     try {
       const plant = await Plants.findById(req.params.id);
@@ -64,6 +64,26 @@ module.exports = function (app, passport, db, ObjectId) {
       return res.status(400).send('Invalid plant ID');
     }
   });
+
+  ///////    SERVING UP PLANT EDITS/UPDATES
+  app.post('/edit/:id', async (req, res) => {
+    try {
+      const { name, light, lastWatered } = req.body;
+      const plantUpdate = await Plants.findByIdAndUpdate(
+        req.params.id,
+        { name, light, lastWatered },
+        { runValidators: true },
+      );
+      if (!plantUpdate) {
+        return res.status(404).send('Could not find plant');
+      }
+      return res.redirect('/profile');
+    } catch (err) {
+      console.error(err);
+      return res.status(400).send(err.message);
+    }
+  });
+
   // DELETING A PLANT RECORD
   app.delete('/delete/:id', async (req, res) => {
     try {
