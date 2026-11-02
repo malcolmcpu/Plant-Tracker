@@ -32,8 +32,8 @@
         id="lastWatered"
         name="lastWatered"
         type="date"
-        value="<%plant.lastWatered? new Date(plant.lastWatered).toISOString().slice(0, 10) : ''%>"
-      />
+        value="<%= plant.lastWatered ? new Date(plant.lastWatered).toISOString().slice(0, 10) : '' %>">
+      
 
       <button type="submit">Save</button>
       <button><a href="/profile">Cancel</a></button>
