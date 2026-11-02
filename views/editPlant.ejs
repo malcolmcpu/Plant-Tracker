@@ -19,7 +19,13 @@
       />
 
       <label for="light">Lighting</label>
-      <select name="light" id="light" required></select>
+      <select name="light" id="light" required>
+        <% ['low', 'medium', 'bright'].forEach(opt => { %>
+          <option value="<%= opt %>" <%= plant.light === opt ? 'selected' : '' %>>
+            <%= opt[0].toUpperCase() + opt.slice(1) %>
+          </option>
+        <% }) %>
+      </select>
 
       <label for="lastWatered">Last Watered</label>
       <input
